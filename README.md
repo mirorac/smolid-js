@@ -1,12 +1,14 @@
 # smolid-js
 
-A temporally-ordered, short, URL-friendly ID scheme implemented in JavaScript and TypeScript.
+A temporally sortable, short, URL-friendly ID scheme implemented in JavaScript and TypeScript.
 
 This is a JavaScript implementation of the [smolid](https://github.com/dotvezz/smolid) library, providing a 64-bit (8-byte) identifier that is:
 
 - **URL-Friendly**: Short and unobtrusive in its default unpadded base32 string encoding
 - **Temporally sortable**: With strong index locality
 - **Fast and unique**: Good enough for most use cases
+
+Compared to UUIDv7 or ULID, smolid prioritizes compactness over maximum entropy.
 
 ## Features
 
@@ -21,6 +23,8 @@ This is a JavaScript implementation of the [smolid](https://github.com/dotvezz/s
 ```bash
 npm install smolid
 ```
+
+Works with ESM and CommonJS. Node.js ≥16 recommended.
 
 ## Usage
 
@@ -55,7 +59,7 @@ console.log(parsed.version()); // 1
 ### Browser (IIFE)
 
 ```html
-<script src="node_modules/smolid/dist/index.browser.js"></script>
+<script src="https://unpkg.com/smolid/dist/index.browser.js"></script>
 <script>
   const id = Smolid.New();
   console.log(id.toString());
@@ -138,6 +142,12 @@ Returns the raw 64-bit integer as a BigInt.
 
 Returns the raw 64-bit integer as a number (may lose precision).
 
+## Error Handling
+
+- `FromString` throws on invalid input
+- `getType` throws if the ID is not typed
+- `Must(fn)` rethrows any error produced by `fn`
+
 ## ID Structure
 
 The ID is a 64-bit value with the following structure:
@@ -153,7 +163,7 @@ The ID is a 64-bit value with the following structure:
 ```
 
 - **Timestamp (41 bits)**: Millisecond-precision timestamp from epoch 2025-01-01
-- **Version (2 bits)**: Version identifier (v1 = `01`)
+- **Version (2 bits)**: Version identifier (version 1 = `01`)
 - **Type Flag (1 bit)**: Indicates if type identifier is embedded
 - **Random/Type (20 bits)**: Random data or type identifier + random data
 
@@ -218,11 +228,11 @@ try {
 
 ### Uniqueness and Collisions
 
-smolid provides 13 to 20 bits of entropy per millisecond. This is "unique-enough" for many applications but is not a replacement for UUIDs in high-concurrency environments with massive write volumes (e.g., >1000 IDs per millisecond).
+smolid provides 20 bits of entropy per millisecond (13 bits when a type is embedded). This is "unique-enough" for many applications but is not a replacement for UUIDs in high-concurrency environments with massive write volumes (e.g., >1000 IDs per millisecond).
 
 ### Database Compatibility
 
-While smolid fits in a uint64, PostgreSQL bigint columns are signed. The timestamp will continue to work correctly and remain sortable until the year 2059, at which point the most significant bit flips and the values become negative from a signed perspective.
+While smolid fits in a uint64, PostgreSQL bigint columns are signed. This is due to PostgreSQL bigint being signed while smolid is an unsigned 64-bit value. The timestamp will continue to work correctly and remain sortable until the year 2059, at which point the most significant bit flips and the values become negative from a signed perspective.
 
 ### Reading
 

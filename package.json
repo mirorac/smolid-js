@@ -33,10 +33,14 @@
     "temporal",
     "sortable"
   ],
-  "author": "",
+  "author": "mirorac",
   "license": "MIT",
   "devDependencies": {
-    "tsup": "^8.0.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirorac/smolid-js.git"
   }
 }
