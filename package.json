@@ -1,0 +1,42 @@
+{
+  "name": "smolid",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A temporally-ordered, short, URL-friendly ID scheme implemented in JavaScript and TypeScript",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index.browser.js",
+      "deno": "./dist/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "npm run build",
+    "test": "node --test",
+    "test:deno": "deno test --allow-read"
+  },
+  "keywords": [
+    "id",
+    "uuid",
+    "identifier",
+    "smolid",
+    "url-friendly",
+    "temporal",
+    "sortable"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}
