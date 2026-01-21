@@ -237,7 +237,8 @@ export class ID {
 
 /**
  * Returns a new smolid.ID v1 with all defaults
- * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
+ * @param timestamp Optional timestamp in milliseconds since Unix epoch (defaults to Date.now()). 
+ *                  Valid range: 2025-01-01 00:00:00 (1735707600000) to 2094-09-07 15:47:35 (3930649655000)
  */
 export function New(timestamp?: number): ID {
   const now = BigInt(timestamp ?? Date.now());
@@ -257,7 +258,8 @@ export function Nil(): ID {
 /**
  * Returns a new smolid.ID v1 with the given type identifier embedded into the ID
  * @param typ Type identifier (0-127)
- * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
+ * @param timestamp Optional timestamp in milliseconds since Unix epoch (defaults to Date.now()).
+ *                  Valid range: 2025-01-01 00:00:00 (1735707600000) to 2094-09-07 15:47:35 (3930649655000)
  */
 export function NewWithType(typ: number, timestamp?: number): ID {
   if (typ > Number(V1_TYPE_SIZE)) {

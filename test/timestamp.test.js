@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { New, NewWithType } from '../dist/index.js';
 
 test('New() with custom timestamp', () => {
-  const customTimestamp = 1735707600000; // 2025-01-01 00:00:00 (EPOCH)
+  const customTimestamp = 1735707600000; // 2025-01-01 00:00:00
   const id = New(customTimestamp);
   
   assert.ok(id);
