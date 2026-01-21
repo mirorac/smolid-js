@@ -9,7 +9,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "browser": "./dist/index.browser.js",
+      "browser": "./dist/index.browser.min.js",
       "deno": "./dist/index.js",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"

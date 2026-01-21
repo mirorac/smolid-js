@@ -15,7 +15,7 @@ Compared to UUIDv7 or ULID, smolid prioritizes compactness over maximum entropy.
 - ✅ **Multi-platform support**: Works in Node.js, browsers, and Deno
 - ✅ **TypeScript support**: Full type definitions included
 - ✅ **Zero dependencies**: No external runtime dependencies
-- ✅ **Small bundle size**: Lightweight implementation
+- ✅ **Small bundle size**: Lightweight implementation (~2.6 KB for browser)
 - ✅ **Type embedding**: Optional type identifier can be embedded in IDs
 
 ## Installation
@@ -58,8 +58,10 @@ console.log(parsed.version()); // 1
 
 ### Browser (IIFE)
 
+For browser usage, a minified IIFE bundle is provided (~2.6 KB).
+
 ```html
-<script src="https://unpkg.com/smolid/dist/index.browser.js"></script>
+<script src="https://unpkg.com/smolid/dist/index.browser.min.js"></script>
 <script>
   const id = Smolid.New();
   console.log(id.toString());
