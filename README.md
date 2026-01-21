@@ -3,6 +3,7 @@
 A temporally-ordered, short, URL-friendly ID scheme implemented in JavaScript and TypeScript.
 
 This is a JavaScript implementation of the [smolid](https://github.com/dotvezz/smolid) library, providing a 64-bit (8-byte) identifier that is:
+
 - **URL-Friendly**: Short and unobtrusive in its default unpadded base32 string encoding
 - **Temporally sortable**: With strong index locality
 - **Fast and unique**: Good enough for most use cases
@@ -26,7 +27,7 @@ npm install smolid
 ### Node.js / TypeScript
 
 ```typescript
-import { New, NewWithType, FromString } from 'smolid';
+import { New, NewWithType, FromString } from "smolid";
 
 // Generate a new ID
 const id = New();
@@ -75,50 +76,66 @@ console.log(id.toString());
 ### Functions
 
 #### `New(timestamp?: number): ID`
+
 Creates a new smolid v1 with a timestamp and random data.
+
 - `timestamp` (optional): Custom timestamp in milliseconds. Defaults to `Date.now()`.
 
 #### `Nil(): ID`
+
 Creates a nil (zero) ID.
 
 #### `NewWithType(typ: number, timestamp?: number): ID`
+
 Creates a new smolid v1 with an embedded type identifier (0-127).
+
 - `typ`: Type identifier (0-127)
 - `timestamp` (optional): Custom timestamp in milliseconds. Defaults to `Date.now()`.
 
 #### `FromString(s: string): ID`
+
 Parses a smolid from a base32 string (case-insensitive).
 
 #### `Must<T>(fn: () => T): T`
+
 Convenience function that throws if an operation fails.
 
 ### ID Methods
 
 #### `toString(): string`
+
 Returns the canonical lowercase base32 string representation.
 
 #### `version(): number`
+
 Returns the version of the ID (currently 1).
 
 #### `toBytes(): Uint8Array`
+
 Returns the 8-byte representation.
 
 #### `toTime(): Date`
+
 Returns the timestamp embedded in the ID with millisecond precision.
 
 #### `getType(): number`
+
 Returns the type identifier (throws if not a typed ID).
 
 #### `isTyped(): boolean`
+
 Returns true if the ID contains a type identifier.
 
 #### `isOfType(typ: number): boolean`
+
 Returns true if the ID is typed and matches the given type.
 
 #### `toBigInt(): bigint`
+
 Returns the raw 64-bit integer as a BigInt.
 
 #### `toNumber(): number`
+
 Returns the raw 64-bit integer as a number (may lose precision).
 
 ## ID Structure
@@ -145,18 +162,18 @@ The ID is a 64-bit value with the following structure:
 ### Basic ID Generation
 
 ```typescript
-import { New } from 'smolid';
+import { New } from "smolid";
 
 const id = New();
 console.log(id.toString()); // Short, URL-friendly string
-console.log(id.toTime());   // When it was created
-console.log(id.version());  // 1
+console.log(id.toTime()); // When it was created
+console.log(id.version()); // 1
 ```
 
 ### Custom Timestamp
 
 ```typescript
-import { New, NewWithType } from 'smolid';
+import { New, NewWithType } from "smolid";
 
 // Create an ID with a specific timestamp
 const historicalId = New(1704067200000); // 2024-01-01 00:00:00
@@ -171,7 +188,7 @@ console.log(historicalTypedId.toTime()); // Date: 2024-01-01T00:00:00.000Z
 ### Typed IDs
 
 ```typescript
-import { NewWithType } from 'smolid';
+import { NewWithType } from "smolid";
 
 const USER_TYPE = 1;
 const POST_TYPE = 2;
@@ -180,24 +197,41 @@ const userId = NewWithType(USER_TYPE);
 const postId = NewWithType(POST_TYPE);
 
 if (userId.isOfType(USER_TYPE)) {
-  console.log('This is a user ID');
+  console.log("This is a user ID");
 }
 ```
 
 ### Parsing and Validation
 
 ```typescript
-import { FromString } from 'smolid';
+import { FromString } from "smolid";
 
 try {
-  const id = FromString('abcd1234efgh');
-  console.log('Valid ID:', id.toTime());
+  const id = FromString("abcd1234efgh");
+  console.log("Valid ID:", id.toTime());
 } catch (error) {
-  console.error('Invalid ID:', error);
+  console.error("Invalid ID:", error);
 }
 ```
+
+## Considerations
+
+### Uniqueness and Collisions
+
+smolid provides 13 to 20 bits of entropy per millisecond. This is "unique-enough" for many applications but is not a replacement for UUIDs in high-concurrency environments with massive write volumes (e.g., >1000 IDs per millisecond).
+
+### Database Compatibility
+
+While smolid fits in a uint64, PostgreSQL bigint columns are signed. The timestamp will continue to work correctly and remain sortable until the year 2059, at which point the most significant bit flips and the values become negative from a signed perspective.
+
+### Reading
+
+You should consider reading the original [blog post "I decided to make a worse UUID for the pettiest of reasons."](https://gitpush--force.com/commits/2026/01/meet-smolid/) for more context on the design and trade-offs of smolid.
+
+## Implementation in other languages
+
+- [Go (dotvezz/smolid)](https://github.com/dotvezz/smolid) - the original implementation
 
 ## License
 
 MIT
-
