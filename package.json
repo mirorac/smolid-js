@@ -1,6 +1,6 @@
 {
   "name": "smolid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A temporally-ordered, short, URL-friendly ID scheme implemented in JavaScript and TypeScript",
   "main": "./dist/index.cjs",
