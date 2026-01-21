@@ -32,10 +32,18 @@ import { New, NewWithType, FromString } from 'smolid';
 const id = New();
 console.log(id.toString()); // e.g., "abcd1234efgh"
 
+// Generate an ID with a custom timestamp
+const customId = New(1735707600000); // 2025-01-01 00:00:00
+console.log(customId.toTime()); // Date: 2025-01-01T00:00:00.000Z
+
 // Generate an ID with an embedded type
 const typedId = NewWithType(42);
 console.log(typedId.isTyped()); // true
 console.log(typedId.getType()); // 42
+
+// Generate a typed ID with a custom timestamp
+const typedCustomId = NewWithType(42, 1735707600000);
+console.log(typedCustomId.toTime()); // Date: 2025-01-01T00:00:00.000Z
 
 // Parse an ID from string
 const parsed = FromString("abcd1234efgh");
@@ -66,14 +74,17 @@ console.log(id.toString());
 
 ### Functions
 
-#### `New(): ID`
+#### `New(timestamp?: number): ID`
 Creates a new smolid v1 with a timestamp and random data.
+- `timestamp` (optional): Custom timestamp in milliseconds. Defaults to `Date.now()`.
 
 #### `Nil(): ID`
 Creates a nil (zero) ID.
 
-#### `NewWithType(typ: number): ID`
+#### `NewWithType(typ: number, timestamp?: number): ID`
 Creates a new smolid v1 with an embedded type identifier (0-127).
+- `typ`: Type identifier (0-127)
+- `timestamp` (optional): Custom timestamp in milliseconds. Defaults to `Date.now()`.
 
 #### `FromString(s: string): ID`
 Parses a smolid from a base32 string (case-insensitive).
@@ -140,6 +151,21 @@ const id = New();
 console.log(id.toString()); // Short, URL-friendly string
 console.log(id.toTime());   // When it was created
 console.log(id.version());  // 1
+```
+
+### Custom Timestamp
+
+```typescript
+import { New, NewWithType } from 'smolid';
+
+// Create an ID with a specific timestamp
+const historicalId = New(1704067200000); // 2024-01-01 00:00:00
+console.log(historicalId.toTime()); // Date: 2024-01-01T00:00:00.000Z
+
+// Create a typed ID with a specific timestamp
+const historicalTypedId = NewWithType(5, 1704067200000);
+console.log(historicalTypedId.getType()); // 5
+console.log(historicalTypedId.toTime()); // Date: 2024-01-01T00:00:00.000Z
 ```
 
 ### Typed IDs

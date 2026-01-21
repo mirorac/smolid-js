@@ -60,6 +60,7 @@
         <div>
             <button onclick="generateId()">Generate New ID</button>
             <button onclick="generateTypedId()">Generate Typed ID</button>
+            <button onclick="generateCustomTimestamp()">Generate with Custom Timestamp</button>
             <button onclick="generateMultiple()">Generate 5 IDs</button>
             <button onclick="parseId()">Parse ID</button>
         </div>
@@ -93,6 +94,21 @@
   Is Typed: ${userId.isTyped()}
   Is of Type ${USER_TYPE}: ${userId.isOfType(USER_TYPE)}
   Time: ${userId.toTime().toISOString()}
+            `.trim();
+        }
+
+        function generateCustomTimestamp() {
+            const customTimestamp = 1735707600000; // 2025-01-01 00:00:00
+            const id = Smolid.New(customTimestamp);
+            const typedId = Smolid.NewWithType(5, customTimestamp);
+            output.innerHTML = `
+<strong>Generated IDs with Custom Timestamp (2025-01-01 00:00:00):</strong>
+  Regular ID: ${id.toString()}
+    Time: ${id.toTime().toISOString()}
+  
+  Typed ID (type 5): ${typedId.toString()}
+    Time: ${typedId.toTime().toISOString()}
+    Type: ${typedId.getType()}
             `.trim();
         }
 

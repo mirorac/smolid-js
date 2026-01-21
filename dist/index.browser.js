@@ -185,8 +185,8 @@ var Smolid = (() => {
       return Number(this.n);
     }
   };
-  function New() {
-    const now = BigInt(Date.now());
+  function New(timestamp) {
+    const now = BigInt(timestamp ?? Date.now());
     let id = now - EPOCH << TIMESTAMP_SHIFT_OFFSET;
     id |= V1_VERSION;
     id |= randomBigInt(V1_RANDOM_SPACE);
@@ -195,11 +195,11 @@ var Smolid = (() => {
   function Nil() {
     return new ID(0n);
   }
-  function NewWithType(typ) {
+  function NewWithType(typ, timestamp) {
     if (typ > Number(V1_TYPE_SIZE)) {
       throw ErrInvalidType;
     }
-    const id = New();
+    const id = New(timestamp);
     id["n"] &= ~V1_TYPE_MASK;
     id["n"] |= V1_TYPE_FLAG;
     id["n"] |= BigInt(typ) << V1_TYPE_SHIFT_OFFSET;

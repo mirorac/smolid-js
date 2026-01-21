@@ -237,9 +237,10 @@ export class ID {
 
 /**
  * Returns a new smolid.ID v1 with all defaults
+ * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
  */
-export function New(): ID {
-  const now = BigInt(Date.now());
+export function New(timestamp?: number): ID {
+  const now = BigInt(timestamp ?? Date.now());
   let id = ((now - EPOCH) << TIMESTAMP_SHIFT_OFFSET); // set the timestamp
   id |= V1_VERSION; // set the version bit
   id |= randomBigInt(V1_RANDOM_SPACE); // random-fill the remaining space
@@ -255,13 +256,15 @@ export function Nil(): ID {
 
 /**
  * Returns a new smolid.ID v1 with the given type identifier embedded into the ID
+ * @param typ Type identifier (0-127)
+ * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
  */
-export function NewWithType(typ: number): ID {
+export function NewWithType(typ: number, timestamp?: number): ID {
   if (typ > Number(V1_TYPE_SIZE)) {
     throw ErrInvalidType;
   }
   
-  const id = New(); // get a new v1 ID
+  const id = New(timestamp); // get a new v1 ID with optional timestamp
   id['n'] &= ~V1_TYPE_MASK; // clear the random data in the type space
   id['n'] |= V1_TYPE_FLAG; // set the type flag
   id['n'] |= BigInt(typ) << V1_TYPE_SHIFT_OFFSET; // set the type

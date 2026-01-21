@@ -86,16 +86,19 @@ declare class ID {
 }
 /**
  * Returns a new smolid.ID v1 with all defaults
+ * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
  */
-declare function New(): ID;
+declare function New(timestamp?: number): ID;
 /**
  * Returns a nil (zero) ID
  */
 declare function Nil(): ID;
 /**
  * Returns a new smolid.ID v1 with the given type identifier embedded into the ID
+ * @param typ Type identifier (0-127)
+ * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
  */
-declare function NewWithType(typ: number): ID;
+declare function NewWithType(typ: number, timestamp?: number): ID;
 /**
  * Parses a smolid.ID from a string. While the canonical representation is all-lowercase,
  * the parser is case-insensitive and will accept uppercase or mixed case without problems.
