@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-01-21
+
 ### Added
-- Optional `timestamp` parameter for `New()` and `NewWithType()` functions to allow creating IDs with arbitrary timestamps (defaults to `Date.now()`)
+
+- Minified IIFE bundle for browser usage
+- Updated documentation and examples to use the minified browser bundle
 
 ## [1.0.0] - 2026-01-21
 
 ### Added
+
 - Initial implementation of smolid-js
 - JavaScript/TypeScript implementation of the smolid ID scheme
 - Support for multiple platforms:
@@ -20,9 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Web browsers (IIFE bundle)
   - Deno
 - Core functionality:
-  - `New()` - Generate new smolid v1
+  - `New(timestamp?)` - Generate new smolid v1 with optional custom timestamp
   - `Nil()` - Create nil (zero) ID
-  - `NewWithType(typ)` - Generate ID with embedded type identifier
+  - `NewWithType(typ, timestamp?)` - Generate ID with embedded type identifier and optional custom timestamp
   - `FromString(s)` - Parse ID from base32 string
   - `Must(fn)` - Convenience wrapper for error handling
 - ID methods:
@@ -36,9 +41,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `toBigInt()` - Get raw 64-bit integer
   - `toNumber()` - Get as JavaScript number
 - Comprehensive test suite for Node.js
+- Integration test suite for multi-platform verification
 - Test suite for Deno
 - Examples for all platforms
 - Full TypeScript definitions
 - Documentation and README
 
+### Fixed
+
+- Improved JSDoc and corrected misleading comments
+
+[1.0.1]: https://github.com/mirorac/smolid-js/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/mirorac/smolid-js/releases/tag/v1.0.0

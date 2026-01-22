@@ -8,7 +8,7 @@ This is a JavaScript implementation of the [smolid](https://github.com/dotvezz/s
 - **Temporally sortable**: With strong index locality
 - **Fast and unique**: Good enough for most use cases
 
-Compared to UUIDv7 or ULID, smolid prioritizes compactness over maximum entropy.
+Compared to UUIDv7 or ULID, smolid prioritizes compactness over maximum entropy. For more context on the design and trade-offs of smolid, read the [blog post "I decided to make a worse UUID for the pettiest of reasons."](https://gitpush--force.com/commits/2026/01/meet-smolid/) .
 
 ## Features
 
@@ -237,8 +237,6 @@ smolid provides 20 bits of entropy per millisecond (13 bits when a type is embed
 While smolid fits in a uint64, PostgreSQL bigint columns are signed. This is due to PostgreSQL bigint being signed while smolid is an unsigned 64-bit value. The timestamp will continue to work correctly and remain sortable until the year 2059, at which point the most significant bit flips and the values become negative from a signed perspective.
 
 ### Reading
-
-You should consider reading the original [blog post "I decided to make a worse UUID for the pettiest of reasons."](https://gitpush--force.com/commits/2026/01/meet-smolid/) for more context on the design and trade-offs of smolid.
 
 ## Implementation in other languages
 
